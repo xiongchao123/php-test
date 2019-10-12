@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+
+<?php
+
+use App\Console\Command\GenerateAZGoodsDisplayOrder;
+
+require_once __DIR__ . '/bootstrap/app.php';
+
+$app = new Symfony\Component\Console\Application("<info>BigBoom Test</info> Console Tool.");
+
+$app->add(new App\Console\Command\Test());
+
+$app->add(new GenerateAZGoodsDisplayOrder());
+
+$app->run();

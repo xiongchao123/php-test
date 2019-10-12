@@ -1,0 +1,25 @@
+{
+    "name": "xiongchao/php-test",
+    "type": "project",
+    "description": "just for test",
+    "keywords": [
+        "xiongchao",
+        "test"
+    ],
+    "license": "MIT",
+    "require": {
+        "illuminate/support": "^6.2",
+        "symfony/console": "^4.3",
+        "illuminate/database": "^6.2",
+        "symfony/var-dumper": "^4.3",
+        "xiongchao/php-tool": "dev-master"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

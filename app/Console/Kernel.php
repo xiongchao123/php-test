@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\EventsTest;
 use App\Console\Commands\MonologTest;
 use App\Console\Commands\Test;
 use App\Foundation\Kernel as ConsoleKernel;
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel{
     protected $commands = [
         Test::class,
         MonologTest::class,
+        EventsTest::class,
     ];
 
     /**

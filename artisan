@@ -2,8 +2,6 @@
 
 <?php
 
-define('APP_START', microtime(true));
-
 $app = require_once __DIR__ . '/bootstrap/app.php';
 
 

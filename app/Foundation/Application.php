@@ -4,6 +4,7 @@ namespace App\Foundation;
 
 use App\Contracts\Debug\ExceptionHandler;
 use App\Exceptions\HandleExceptions;
+use App\Providers\EventServiceProvider;
 use App\Providers\LogServiceProvider;
 use Dotenv\Dotenv;
 use Exception;
@@ -21,6 +22,8 @@ class Application extends Container
     const VERSION = 'dev';
 
     /**
+     * project base path
+     *
      * @var string
      */
     protected $basePath;
@@ -44,17 +47,26 @@ class Application extends Container
         }
 
         $this->loadEnvironment();
-        $this->setDefaultTimezone();
         $this->registerBaseBindings();
         $this->loadConfiguration($this->get('config'));
+        $this->setDefaultTimezone();
         $this->registerBaseProviders();
     }
 
+    /**
+     * get project version
+     *
+     * @return string
+     */
     public function version()
     {
         return self::VERSION;
     }
 
+    /**
+     * @param $basePath
+     * @return $this
+     */
     public function setBasePath($basePath)
     {
         $this->basePath = rtrim($basePath, '\/');
@@ -62,6 +74,9 @@ class Application extends Container
         return $this;
     }
 
+    /**
+     * register base bind
+     */
     protected function registerBaseBindings()
     {
         static::setInstance($this);
@@ -75,14 +90,21 @@ class Application extends Container
         $this->add('config', Repository::class, true);
     }
 
+    /**
+     * register base providers
+     */
     protected function registerBaseProviders()
     {
         $this->addServiceProvider(LogServiceProvider::class);
+        $this->addServiceProvider(EventServiceProvider::class);
     }
 
+    /**
+     * set timezone
+     */
     protected function setDefaultTimezone()
     {
-        date_default_timezone_set('Asia/Shanghai');
+        date_default_timezone_set(config('app.timezone'));
     }
 
     /**
@@ -102,11 +124,17 @@ class Application extends Container
         return static::$instance = $container;
     }
 
+    /**
+     * @return bool
+     */
     public function runningInConsole()
     {
         return php_sapi_name() === 'cli' || php_sapi_name() === 'phpdbg';
     }
 
+    /**
+     * load Environment
+     */
     protected function loadEnvironment()
     {
         Dotenv::create(
@@ -114,11 +142,22 @@ class Application extends Container
         )->safeLoad();
     }
 
+    /**
+     * get config path
+     *
+     * @return string
+     */
     protected function configPath()
     {
         return $this->basePath . DIRECTORY_SEPARATOR . 'config';
     }
 
+    /**
+     * load configs
+     *
+     * @param RepositoryContract $repository
+     * @throws Exception
+     */
     protected function loadConfiguration(RepositoryContract $repository)
     {
         $files = $this->loadConfigurationFiles();
@@ -132,6 +171,11 @@ class Application extends Container
         }
     }
 
+    /**
+     * load all config files
+     *
+     * @return array
+     */
     protected function loadConfigurationFiles()
     {
         $files = [];

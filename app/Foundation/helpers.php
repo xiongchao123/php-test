@@ -21,12 +21,12 @@ if (!function_exists('app')) {
     }
 }
 
-if (! function_exists('logger')) {
+if (!function_exists('logger')) {
     /**
      * Log a debug message to the logs.
      *
-     * @param  string|null  $message
-     * @param  array  $context
+     * @param string|null $message
+     * @param array $context
      * @return Logger|null
      */
     function logger($message = null, array $context = [])
@@ -39,14 +39,14 @@ if (! function_exists('logger')) {
     }
 }
 
-if (! function_exists('config')) {
+if (!function_exists('config')) {
     /**
      * Get / set the specified configuration value.
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
-     * @param  array|string|null  $key
-     * @param  mixed  $default
+     * @param array|string|null $key
+     * @param mixed $default
      * @return mixed|\Illuminate\Config\Repository
      */
     function config($key = null, $default = null)
@@ -60,5 +60,19 @@ if (! function_exists('config')) {
         }
 
         return app('config')->get($key, $default);
+    }
+}
+
+if (!function_exists('event')) {
+    /**
+     * Dispatch an event and call the listeners.
+     *
+     * @param string|object $event
+     * @param bool $halt
+     * @return array|null
+     */
+    function event($event, $halt = false)
+    {
+        return app('events')->dispatch($event, $halt);
     }
 }

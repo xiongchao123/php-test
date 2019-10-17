@@ -30,6 +30,8 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
+
     'logfile' => 'monitor.log',
     'log' => 'daily',
     'log_path' => ROOT_PATH . 'storage/logs/'

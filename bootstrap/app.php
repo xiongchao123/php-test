@@ -1,18 +1,15 @@
 <?php
 
-date_default_timezone_set('Asia/Shanghai');
+use App\Foundation\Application;
+use App\Providers\ConsoleServiceProvider;
+
 define('ROOT_PATH', __DIR__ . '/../');
-require_once ROOT_PATH.'vendor/autoload.php';
-//加载全局异常处理
-//new \App\Exceptions\HandleExceptions();
-require_once ROOT_PATH .'app/util/file.php';
-require_once ROOT_PATH .'app/util/helpers.php';
-$GLOBALS['config']=[];
-//加载config目录下所有的配置文件
-foreach (get_files(ROOT_PATH .'config') as $path){
-    $pathinfo = pathinfo($path);
-    if($pathinfo['extension'] !== 'php'){
-        exit("Unknown File : ".$path);
-    }
-    $GLOBALS['config'][$pathinfo['filename']]=require $path;
-}
+define('APP_START', microtime(true));
+
+require_once ROOT_PATH . 'vendor/autoload.php';
+
+$app = new Application(ROOT_PATH);
+
+$app->addServiceProvider(ConsoleServiceProvider::class);
+
+return $app;

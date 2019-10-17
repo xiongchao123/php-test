@@ -12,12 +12,20 @@
         "symfony/console": "^4.3",
         "illuminate/database": "^6.2",
         "symfony/var-dumper": "^4.3",
-        "xiongchao/php-tool": "dev-master"
+        "monolog/monolog": "^2.0",
+        "xiongchao/php-tool": "dev-master",
+        "league/container": "^3.3",
+        "illuminate/config": "^6.3",
+        "vlucas/phpdotenv": "^3.6",
+        "symfony/finder": "^4.3"
     },
     "config": {
         "optimize-autoloader": true
     },
     "autoload": {
+        "files": [
+            "app/Foundation/helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/"
         }

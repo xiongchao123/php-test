@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Command;
+namespace App\Console\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,10 +41,10 @@ class Test extends Command
             }
         }
 
-        $output->writeln("<info>zero count : $aCount</info>");
-        $output->writeln("<info>one count : $bCount</info>");
-        $output->writeln("<info>one count : $cCount</info>");
-        $output->writeln("<info>one count : $dCount</info>");
+        $output->writeln("<info>a count : $aCount</info>");
+        $output->writeln("<info>b count : $bCount</info>");
+        $output->writeln("<info>c count : $cCount</info>");
+        $output->writeln("<info>d count : $dCount</info>");
     }
 
     protected function testRandom(OutputInterface $output)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Command;
+namespace App\Console\Commands;
 
 use App\Server\Server;
 use Symfony\Component\Console\Command\Command;

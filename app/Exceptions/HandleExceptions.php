@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Xc
- * Date: 2017/11/29
- * Time: 17:18
- */
+
 namespace App\Exceptions;
 
-use App\Log\Writer;
+use App\Contracts\Debug\ExceptionHandler;
+use Exception;
 
-Class HandleExceptions
+Class HandleExceptions implements ExceptionHandler
 {
-
     public function __construct()
     {
         error_reporting(-1);
@@ -23,7 +18,7 @@ Class HandleExceptions
         register_shutdown_function([$this, 'handleShutdown']);
 
         // 还原成之前的全局异常处理程序
-        //restore_exception_handler();
+        // restore_exception_handler();
     }
 
     public function handleError($level, $message, $file = '', $line = 0, $context = [])
@@ -38,9 +33,8 @@ Class HandleExceptions
         if (!$e instanceof \Exception) {
             $e = new FatalThrowableError($e);
         }
-        //异常处理
-        $writer=new Writer();
-        $writer->error($e->getMessage());
+
+        $this->report($e);
     }
 
     /**
@@ -58,8 +52,8 @@ Class HandleExceptions
     /**
      * Create a new fatal exception instance from an error array.
      *
-     * @param  array $error
-     * @param  int|null $traceOffset
+     * @param array $error
+     * @param int|null $traceOffset
      * @return \App\Exceptions\FatalErrorException
      */
     protected function fatalExceptionFromError(array $error, $traceOffset = null)
@@ -72,12 +66,28 @@ Class HandleExceptions
     /**
      * Determine if the error type is fatal.
      *
-     * @param  int  $type
+     * @param int $type
      * @return bool
      */
     protected function isFatal($type)
     {
         return in_array($type, [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE]);
+    }
+
+    /**
+     * Report or log an exception.
+     *
+     * @param \Exception $e
+     * @return void
+     */
+    public function report(Exception $e)
+    {
+        logger()->error($e->getMessage(), ['exception' => $e]);
+        // render exception
+
+        if (app()->runningInConsole()) {
+            dd($e);
+        }
     }
 }
 

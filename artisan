@@ -2,14 +2,8 @@
 
 <?php
 
-use App\Console\Command\GenerateAZGoodsDisplayOrder;
+define('APP_START', microtime(true));
 
-require_once __DIR__ . '/bootstrap/app.php';
+$app = require_once __DIR__ . '/bootstrap/app.php';
 
-$app = new Symfony\Component\Console\Application("<info>BigBoom Test</info> Console Tool.");
 
-$app->add(new App\Console\Command\Test());
-
-$app->add(new GenerateAZGoodsDisplayOrder());
-
-$app->run();
